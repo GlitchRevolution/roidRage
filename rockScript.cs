@@ -4,7 +4,9 @@ public int hitPoints; //How many taps does it take to destroy?
 private Quaternion explosionRotation = new Vector3(0,0,0);
 private GameObject explosion;
 private AudioClip explosionSound;
+public GameObject breakRock;
 private int randomRoll;
+public bool isBreakable = false;
 
 void Awake() {
   rigidbody.angularVelocity = Random.insideUnitSphere * rotationSpeed; //Set random rotation as it falls
@@ -45,8 +47,14 @@ void OnMouseDown(){
 }
 
 void RockDestroy(){
+  if (isBreakable == false) {
   GameController.GameController.score += 1; //Add to score, yay
   Instantiate(explosion, transform.position, explosionRotation);
   AudioSource.PlayClipAtPoint(explosionSound, transform.position);
   Destroy(gameObject);
+  }
+  if (isBreakable == true){
+    Instantiate(breakRock,transform.position,explosionRotation);
+    Destroy(gameObject);
+  }
 }
