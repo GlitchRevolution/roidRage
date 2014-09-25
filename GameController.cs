@@ -30,3 +30,7 @@ time = (int)timeCounter; //See how long they last in seconds
 void Update() {
 Debug.Log(score); //What's the score
 }
+
+public void GameOver(){
+  //Put GameoverStuff here
+}
