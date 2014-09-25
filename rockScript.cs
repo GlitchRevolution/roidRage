@@ -46,9 +46,16 @@ void OnMouseDown(){
   }
 }
 
+void OnTriggerEnter(Collider other){
+  if (other.tag == "Laser" || other.tag == "Shield")
+        {
+            RockDestroy();
+        }
+}
+
 void RockDestroy(){
   if (isBreakable == false) {
-  GameController.GameController.score += 1; //Add to score, yay
+  GameController.GameController.AddScore(); //Add to score, yay
   Instantiate(explosion, transform.position, explosionRotation);
   AudioSource.PlayClipAtPoint(explosionSound, transform.position);
   Destroy(gameObject);
