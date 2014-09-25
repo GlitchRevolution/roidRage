@@ -54,6 +54,8 @@ void RockDestroy(){
   Destroy(gameObject);
   }
   if (isBreakable == true){
+    Instantiate(explosion, transform.position, explosionRotation);
+    AudioSource.PlayClipAtPoint(explosionSound, transform.position);
     Instantiate(breakRock,transform.position,explosionRotation);
     Destroy(gameObject);
   }
