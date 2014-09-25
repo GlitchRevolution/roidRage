@@ -22,15 +22,79 @@ public sound5;
 public explosion6;
 public sound6;
 
+// Power up variable storage
+public float powerUpCountdown = 0;
+private float powerUpTimer;
+public bool slowTime;
+public bool laserDefense;
+public bool shield;
+public bool multiplier;
+
+public GameObject laserBlast;
+public Vector3 laserBlastSpawn;
+
+void Awake() {
+powerUpTimer = 0;
+}
+
+
 void FixedUpdate() {
 timeCounter = Time.deltaTime;
 time = (int)timeCounter; //See how long they last in seconds
 }
 
 void Update() {
-Debug.Log(score); //What's the score
+  Debug.Log(score); //What's the score
 }
 
 public void GameOver(){
   //Put GameoverStuff here
+}
+
+
+//POWER UPS
+public void SlowTime(){
+  powerUpTimer = powerUpCountdown; //Set timer to variable established in inspector
+  if (powerUpTimer > 0 && slowTime == true){
+  Time.timeScale= 0.5f; //Half speed
+  powerUpTimer -= Time.deltaTime; //Subtract timer by actual time
+  SlowTime(); //Repeat process so long as timer still has juice and bool is correct
+  } else if (powerUpTimer <= 0 && slowTime == true) {
+    slowTime = false; // Reset bool
+    powerUpTimer = 0; // Reset timer
+    ResetPowerUp(); // Reset EVERYTHING
+  }
+}
+  
+public void LaserDefense(){
+  private Quaternion laserAngle;
+    powerUpTimer = powerUpCountdown; //Set timer to variable established in inspector
+    if (powerUpTimer > 0 && laserDefense == true){
+    laserAngle = new Quaternion(0, 0, Random.Range(0,180),0);
+    Instantiate(laserBlast,laserBlastSpawn,laserAngle);
+    powerUpTimer -= Time.deltaTime;
+    } else if (powerUpTimer <= 0 && laserDefense == true){
+    laserDefense = false;
+    powerUpTimer = 0;
+    ResetPowerUp();
+    }
+    
+}
+
+public void Shield(){
+  
+}
+
+public void Multiplier(){
+  
+}
+
+public void ResetPowerUp(){
+  Time.timeScale = 1; //Reset time scale
+  
+  powerUpTimer = 0;
+  slowTime = false;
+  laserDefense = false;
+  shield = false;
+  multiplier = false;
 }
