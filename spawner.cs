@@ -49,7 +49,7 @@ void Update(){
 
 void Spawn(){
 	private int RandomRockSelector; //Random roll for rock type spawn
-	RandomRockSelector = Random.Range(0-99); 
+	RandomRockSelector = Random.Range(0,99); 
 	
 	private Vector3 spawnLocation; //Where does it spawn at?
 	spawnLocation = new Vector3(Random.Range(-centerSpawnX,centerSpawnX), 10, 0);
@@ -57,7 +57,7 @@ void Spawn(){
 	private Vector3 newRockSpawn;
 	
 	private Quaternion spawnRotation; //Random rotation (modeled for 3D)
-	spawnRotation = new Vector3(Random.Range(0-360), Random.Range(0-360), Random.Range(0-360));
+	spawnRotation = new Vector3(Random.Range(0,360), Random.Range(0,360), Random.Range(0,360));
 	
 	private int waveCount; //How many in the wave?
 	private int waveCountMax; //Total in a wave
@@ -65,7 +65,7 @@ void Spawn(){
 	//If not in a wave, set wave number
 	if (waveCount == 0){
 		savedSpawnLocation = spawnLocation;
-		waveCount = Random.Range(1-maxWaveSize); //Randomly select wave size
+		waveCount = Random.Range(1,maxWaveSize); //Randomly select wave size
 		waveCountMax = waveCount; 
 	}
 	
