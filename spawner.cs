@@ -7,6 +7,23 @@ public GameObject durableRock; //Takes a lot of hits
 public float durableRockChance; //How frequently do they spawn?
 public GameObject multiRock; //Breaks apart
 public float multiRockChance; //How frequently do they spawn?
+
+// Translation variables for 0-100 rolls
+private float durableRockChanceTrans;
+private float multiRockChanceTrans;
+private float timeChanceTrans;
+private float laserChanceTrans;
+private float shieldChanceTrans;
+
+
+public GameObject timePowerUp;
+public float timeChance;
+public GameObject laserPowerUp;
+public float laserChance;
+public GameObject shieldPowerUp;
+public float shieldChance;
+public GameObject multiplierPowerUp;
+public float multiChance;
 /* a note on the chance variables:
  * The script calculates the percentages by subtracting the percentage listed in the variable from 99 and then determining 
  * its probability in the Spawn() function. multiRockChance isn't used but is only there as a check digit for the other two.
@@ -27,13 +44,25 @@ public Vector3 rockDistance; //How far apart are the rocks? USE POSITIVE NUMBERS
 
 void Awake() {
 	spawnTimerMaster = 0; // Reset the timer to 0 each level
-	durableRockChance = Mathf.Abs(99-durableRockChance); //Translate the percentage
-	
 	//Check to see if chance percentages add up
-	if (defaultRockChance + durableRockChance + multiRockChance != 100) { 
-		Debug.Log("INCORRECT CHANCE VALUES! VALUES SHOULD BE BETWEEN 0-100. MULTIROCK VALUE AUTOMATICALLY ADJUSTED");
-		multiRockChance = Mathf.Abs(100-durableRockChance-defaultRockChance);
+	if (defaultRockChance + durableRockChance + multiRockChance + timeChance + laserChance + shieldChance + multiChance != 100) { 
+		Debug.Log("INCORRECT CHANCE VALUES! VALUES SHOULD BE BETWEEN 0-100. VALUES SET TO DEFAULTS");
+		defaultRockChance = 65;
+		durableRockChance = 15;
+		multiRockChance = 8;
+		timeChance = 3;
+		laserChance = 3;
+		shieldChance = 3;
+		multiChance = 3;
 	}
+	
+	// Translate chances into usable percentages, number indicates MAX because MIN is already known
+	durableRockChanceTrans = Mathf.Abs(99-multiRockChance-timeChance-laserChance-shieldChance-multiChance); 
+	multiRockChanceTrans = Mathf.Abs(99-timeChance-laserChance-shieldChance-multiChance);
+	timeChanceTrans = Mathf.Abs(99-laserChance-shieldChance-multiChance);
+	laserChanceTrans = Mathf.Abs(99-shieldChance-multiChance);
+	shieldChanceTrans = Mathf.Abs(99-multiChance);
+
 	Spawn();
 }
 
@@ -72,14 +101,34 @@ void Spawn(){
 	//If in a wave, spawn until not in a wave
 	if (waveCount > 0) {
 		//Uses the Chance float variables to determine which rock to spawn, alter in inspector
+		// ROCKS
 		if (RandomRockSelector >= 0 && RandomRockSelector <= defaultRockChance) {
 			spawnRock = defaultRock;
 		}
-		if (RandomRockSelector > defaultRockChance && RandomRockSelector <= durableRockChance) {
+		if (RandomRockSelector > defaultRockChance && RandomRockSelector <= durableRockChanceTrans) {
 			spawnRock = durableRock;
 		}
-		if (RandomRockSelector > durableRockChance && RandomRockSelector <= 99) {
+		
+		if (RandomRockSelector > durableRockChanceTrans && RandomRockSelector <= multiRockChanceTrans) {
 			spawnRock = multiRock;
+		}
+		
+		
+		// POWER UPS
+		if (RandomRockSelector > multiRockChanceTrans && RandomRockSelector <= timeChanceTrans) {
+			spawnRock = timePowerUp;
+		}
+		
+		if (RandomRockSelector > timeChanceTrans && RandomRockSelector <= laserChanceTrans) {
+			spawnRock = laserPowerUp;
+		}
+		
+		if (RandomRockSelector > laserChanceTrans && RandomRockSelector <= shieldChanceTrans) {
+			spawnRock = shieldPowerUp;
+		}
+		
+		if (RandomRockSelector > shieldChanceTrans && RandomRockSelector <= 99) {
+			spawnRock = multiplierPowerUp;
 		}
 		
 		//FIRST SPAWN?
