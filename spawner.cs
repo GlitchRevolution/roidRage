@@ -34,6 +34,7 @@ void Awake() {
 		Debug.Log("INCORRECT CHANCE VALUES! VALUES SHOULD BE BETWEEN 0-100. MULTIROCK VALUE AUTOMATICALLY ADJUSTED");
 		multiRockChance = Mathf.Abs(100-durableRockChance-defaultRockChance);
 	}
+	Spawn();
 }
 
 void FixedUpdate() {
