@@ -1,3 +1,7 @@
+/* STILL NEED TO ADD A FUNCTION TO ONLY SPAWN ONE POWER UP AT A TIME.
+ * Essentially, reference GameController countdown, if countdown >0 then change spawnrock to default)
+ */
+
 public float spawnTimer;
 private float spawnTimerMaster;
 
