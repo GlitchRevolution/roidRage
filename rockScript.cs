@@ -67,3 +67,17 @@ void RockDestroy(){
     Destroy(gameObject);
   }
 }
+
+
+// MAKE THIS CHANGE:
+void OnTriggerEnter(Collider other){
+  if (other.tag == "Laser" || other.tag == "Shield")
+        {
+            RockDestroy();
+        }
+  if (other.tag == "Wipe"){
+    Instantiate(explosion, transform.position, explosionRotation);
+    AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+    Destroy(gameObject);
+  }
+}
