@@ -50,10 +50,18 @@ public Camera gameCamera; // variable to identify the Camera
 public Vector3 gameCameraLocation;
 public int cameraShakeAmount;
 private int cameraShakeCounter;
+public GameObject impactExplosion;
 
 void Awake(){
   gameCameraLocation = gameCamera.transform.position;
 }
+
+// REPLACEMENT
+if (other.tag == "Rock") {
+  health -= 1; //If the ground is hit by a rock, damage city
+  Instantiate (impactExplosion, other.gameObject.transform);
+  Destroy(other.gameObject);
+  }
 
 void ScreenWipe(){
   if (cameraShakeCounter > 0) {
