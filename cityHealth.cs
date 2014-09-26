@@ -16,8 +16,47 @@ void OnTriggerEnter(Collider other){
   if (other.tag == "Rock") {
   health -= 1; //If the ground is hit by a rock, damage city
   }
+}
+
+
+// NEW ADDITIONS
+// LOOK! NEW ADDITIONS! ADD THESE!
+
+public Camera gameCamera; // variable to identify the Camera
+public Vector3 gameCameraLocation;
+public int cameraShakeAmount;
+private int cameraShakeCounter;
+public GameObject impactExplosion;
+
+void Awake(){
+  gameCameraLocation = gameCamera.transform.position;
+}
+
+// REPLACEMENT
+if (other.tag == "Rock") {
+  health -= 1; //If the ground is hit by a rock, damage city
+  cameraShakeCounter = cameraShakeAmount;
+  ScreenWipe();
+  Instantiate (impactExplosion, other.gameObject.transform);
+  Destroy(other.gameObject);
+  }
+// END REPLACEMENT
+
+void ScreenWipe(){
+  if (cameraShakeCounter > 0) {
+  gameCamera.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);  
+  cameraShakeCounter -= 1;
+  Invoke ("ScreenWipe",.1f);
+  }
+  if (cameraShakeCounter == 0){
+    gameCamera.Translate(gameCameraLocation * Time.deltaTime);
+  }
   
-  if (health <= 0) {
+  Invoke("CityDamage",2); // How long until we show the damaged city (best after explosion effect)
+}
+
+void CityDamage(){
+   if (health <= 0) {
   GameController.GameController.GameOver(); //If health is 0 or less, start GameOver sequence
   }
   
@@ -36,41 +75,6 @@ void OnTriggerEnter(Collider other){
   cityMax.SetActive = false;
   cityHurt.SetActive = false;
   cityDestroyed.SetActive = true;
-  }
-  
-}
-
-
-// NEW ADDITIONS
-// Add the following code to OnTriggerEnter for Rock
-// cameraShakeCounter = cameraShakeAmount;
-// ScreenWipe();
-
-public Camera gameCamera; // variable to identify the Camera
-public Vector3 gameCameraLocation;
-public int cameraShakeAmount;
-private int cameraShakeCounter;
-public GameObject impactExplosion;
-
-void Awake(){
-  gameCameraLocation = gameCamera.transform.position;
-}
-
-// REPLACEMENT
-if (other.tag == "Rock") {
-  health -= 1; //If the ground is hit by a rock, damage city
-  Instantiate (impactExplosion, other.gameObject.transform);
-  Destroy(other.gameObject);
-  }
-
-void ScreenWipe(){
-  if (cameraShakeCounter > 0) {
-  gameCamera.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);  
-  cameraShakeCounter -= 1;
-  Invoke ("ScreenWipe",.1f);
-  }
-  if (cameraShakeCounter == 0){
-    gameCamera.Translate(gameCameraLocation * Time.deltaTime);
-  }
+  } 
 }
 
