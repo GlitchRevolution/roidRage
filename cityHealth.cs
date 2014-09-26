@@ -39,3 +39,30 @@ void OnTriggerEnter(Collider other){
   }
   
 }
+
+
+// NEW ADDITIONS
+// Add the following code to OnTriggerEnter for Rock
+// cameraShakeCounter = cameraShakeAmount;
+// ScreenWipe();
+
+public Camera gameCamera; // variable to identify the Camera
+public Vector3 gameCameraLocation;
+public int cameraShakeAmount;
+private int cameraShakeCounter;
+
+void Awake(){
+  gameCameraLocation = gameCamera.transform.position;
+}
+
+void ScreenWipe(){
+  if (cameraShakeCounter > 0) {
+  gameCamera.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);  
+  cameraShakeCounter -= 1;
+  Invoke ("ScreenWipe",.1f);
+  }
+  if (cameraShakeCounter == 0){
+    gameCamera.Translate(gameCameraLocation * Time.deltaTime);
+  }
+}
+
